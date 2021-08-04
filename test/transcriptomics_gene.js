@@ -4,11 +4,11 @@ const Service = require("../src")
 const endpoint = "https://patricbrc.org/api"
 //const endpoint = "http://localhost:3001"
 //const endpoint='https://httpbin.org/post'
-const type="SpecialtyGene"
+const type="TranscriptomicsGene"
 
 describe(`${type} API Tests`, function(){
 	const svc = new Service(endpoint)
-	const test_id="6c07c107-f416-4f4e-a265-8c689da27785"
+	const test_id="05e4172c-8d8a-47d6-8543-e7bc3aad9be3"
 	const test_id_field="id"
 	const test_rql_query = `eq(${test_id_field},${encodeURIComponent('"'+test_id+'"')})`
 	const test_solr_query = `${test_id_field}:${encodeURIComponent('"'+test_id+'"')}`

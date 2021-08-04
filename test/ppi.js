@@ -4,15 +4,16 @@ const Service = require("../src")
 const endpoint = "https://patricbrc.org/api"
 //const endpoint = "http://localhost:3001"
 //const endpoint='https://httpbin.org/post'
-const type="SpecialtyGene"
+const type="PPI"
 
 describe(`${type} API Tests`, function(){
 	const svc = new Service(endpoint)
-	const test_id="6c07c107-f416-4f4e-a265-8c689da27785"
+	const test_id="9b8046aa-c62b-4110-a5e7-ec665d08a0b2"
 	const test_id_field="id"
 	const test_rql_query = `eq(${test_id_field},${encodeURIComponent('"'+test_id+'"')})`
 	const test_solr_query = `${test_id_field}:${encodeURIComponent('"'+test_id+'"')}`
 	const expected_result_len = 1
+
 	it(`get${type}`, async function(){
 		const item = await svc[`get${type}`](test_id)
 		assert.equal(item[test_id_field],test_id)

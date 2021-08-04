@@ -10,7 +10,7 @@
         "url": "https://github.com/patric3/bvbrc_js_client.git"
     },
     "scripts": {
-        "test": "mocha",
+        "test": "mocha -t 6000",
         "build": "mkdir -p dist && ./node_modules/.bin/browserify -p tinyify src/index.js --standalone BVBRCClient | ./node_modules/.bin/derequire  > dist/bvbrc_client.js"
     },
     "dependencies": {
