@@ -23,3 +23,10 @@ class InvalidQueryLanguage extends Error {
 }
 module.exports.InvalidQueryLanguage=InvalidQueryLanguage
 
+class ClientNotInitialized extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'ClientNotInitialized';
+    }
+}
+module.exports.ClientNotInitialized=ClientNotInitialized
