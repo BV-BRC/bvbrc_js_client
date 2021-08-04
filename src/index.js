@@ -4,11 +4,13 @@ const QueryResult = require("./query_result")
 
 class BVBRCAPIService {
 	constructor(endpoint, token) {
-		if (!endpoint){
-			this.initialized=false
+		this.initialized=false
+
+		if (endpoint) {
+			this.initialized=true
+			this.endpoint = endpoint
+			this.token = token
 		}
-		this.endpoint = endpoint
-		this.token = token
 
 		this.dataTypes = ["antibiotics", "encyme_class_ref", "feature_sequence", "gene_ontology_ref", "genome", "genome_amr", "genome_feature", "genome_sequence",
 			"id_ref", "misc_niaid_sgc", "model_complex_role", "model_compound", "model_reaction", "model_template_biomass", "model_template_reaction",
@@ -46,7 +48,7 @@ class BVBRCAPIService {
 			}
 		}
 
-		const response = await fetch(`${this.endpoint}/${data_type}/${id}`, req_opts)
+		const response = await fetch(`${this.endpoint}/${data_type}/${encodeURIComponent(id)}`, req_opts)
 
 		if (!response.ok) {
 			if (response.status === 404) {
