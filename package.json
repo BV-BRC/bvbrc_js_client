@@ -1,0 +1,21 @@
+{
+    "name": "bvbrc_js_client",
+    "version": "1.0.0",
+    "homepage": "https://github.com/patric3/bvbrc_js_client#readme",
+    "license": "BSD-3-Clause",
+    "author": "Dustin Machi <dm8qs@virginia.edu>",
+    "main": "src/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/patric3/bvbrc_js_client.git"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "dependencies": {
+        "node-fetch": ">=2.6.1"        
+    },
+    "devDependencies": {
+        "mocha": ">=9.0.3"        
+    }
+}
