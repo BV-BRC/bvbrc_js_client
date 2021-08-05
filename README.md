@@ -34,7 +34,7 @@ There is a pre-built standalone version of this library in the 'dist' folder.  O
 </script>
 ```
 
-The BVBRCCLient class takes the user's token as a second optional parameters, which is of course required when trying to access and private data.
+The BVBRCCLient class takes the user's token as a second optional parameter, which is of course required when trying to access any private data.
 
 Additionally the BVBRCClient class can be instantiated with no parameters and later initialized with an endpoint and token.  This allows lazy instantiation of the class so that it is easily integrated into the singleton pattern p3_web is currently using.
 
