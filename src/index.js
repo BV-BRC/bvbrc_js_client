@@ -123,17 +123,25 @@ class BVBRCAPIService {
 		
 		var response = await fetch(url, req_options)
 		
-
 		if (!response.ok) {
 			throw Error(`${response.statusText}`);
 		}
 
-		var item_meta = response.headers.get('content-range').split(" ")[1]
-		var parts = item_meta.split("/")
-		var total = parseInt(parts[1])
-		var start = parseInt(parts[0].split("-")[0])
-		var meta = { start: start, total_items: total }
-		return new QueryResult(await response.json(), meta)
+		switch(req_options.headers.accept){
+			case "application/solr+json":
+				return await response.json()
+				break;
+			case "application/json":
+				var item_meta = response.headers.get('content-range').split(" ")[1]
+				var parts = item_meta.split("/")
+				var total = parseInt(parts[1])
+				var start = parseInt(parts[0].split("-")[0])
+				var meta = { start: start, total_items: total }
+				return new QueryResult(await response.json(), meta)		
+				break;
+			default:
+				return await response.text()
+		}
 	}
 
 	async getSchema(data_type) {

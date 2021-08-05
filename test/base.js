@@ -85,10 +85,37 @@ describe("Base API Tests", function () {
 		assert.equal(genomes[0].genome_id, test_genome_id)
 	});
 
+	it("query rql async - solr response obj", async function () {
+		const test_genome_id = "227377.26"
+		var result = await svc.query("genome", `eq(genome_id,${test_genome_id})`, {accept: "application/solr+json"});
+		var genomes = result.response.docs;
+		assert.lengthOf(genomes, 1, "query result size should be 1")
+		assert.equal(genomes[0].genome_id, test_genome_id)
+	});
+
+	it("query rql async - TSV Response", async function () {
+		const test_genome_id = "227377.26"
+		var result = await svc.query("genome", `eq(genome_id,${test_genome_id})`, {accept: "text/tsv"});
+		var genome = result.split('\n')[1]
+		var genome_id = genome.split("\t")[0]
+		console.log("genome_id", genome_id)
+		assert.equal(genome_id, `"${test_genome_id}"`)
+	});
+
 	it("query rql promise", function (done) {
 		const test_genome_id = "227377.26"
 		svc.query("genome", `eq(genome_id,${test_genome_id})`).then((result)=>{
 			const genomes = result.items
+			assert.lengthOf(genomes, 1, "query result size should be 1")
+			assert.equal(genomes[0].genome_id, test_genome_id)
+			done()
+		})
+	});
+
+	it("query rql promise - solr response -obj", function (done) {
+		const test_genome_id = "227377.26"
+		svc.query("genome", `eq(genome_id,${test_genome_id})`,{accept: "application/solr+json"}).then((result)=>{
+			const genomes = result.response.docs
 			assert.lengthOf(genomes, 1, "query result size should be 1")
 			assert.equal(genomes[0].genome_id, test_genome_id)
 			done()
