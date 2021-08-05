@@ -388,7 +388,6 @@ class BVBRCAPIService {
 		return await this.query("taxonomy", query, opts)
 	}
 
-
 	async getTranscriptomicsExperiment(id) {
 		// get a TranscriptomicsExperiment by id
 		return await this.get("transcriptomics_experiment", id);

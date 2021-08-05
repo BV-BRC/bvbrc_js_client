@@ -98,7 +98,6 @@ describe("Base API Tests", function () {
 		var result = await svc.query("genome", `eq(genome_id,${test_genome_id})`, {accept: "text/tsv"});
 		var genome = result.split('\n')[1]
 		var genome_id = genome.split("\t")[0]
-		console.log("genome_id", genome_id)
 		assert.equal(genome_id, `"${test_genome_id}"`)
 	});
 
