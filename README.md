@@ -1,30 +1,30 @@
 # BV-BRC Javascript Client
 bvbrc_js_client is a javascript client library for accessing the BV-BRC Data API
 
-## Setup
+## Installation
 ```npm install bvbrc_js_client```
 
 ## Build
 Running a build will create a dist/bvbrc_client.js file that can be loaded independantly in the browser. This creates a 'BVBRCClient' class on the global (window) object when included in browser.
 
-```npm run build```
+```
+npm run build
+```
 
 ## Tests
-```npm run  test```
+```
+npm run test
+```
 
-## Usage
 
-Here are some usage examples.  These are for node, but it works the same in browser except you don't need to require('bvbrc_js_client').  Instead load the built dist module above and then instantiate 
-the BVBRCClient the same way as Service below.
+## Instantiation
 
-### Instantiation
-
-#### NodeJS
+### NodeJS
 ```
 const Service = require('bvbrc_js_client')
 const svc = new Service("https://patricbrc.org/api")
 ```
-#### Browser
+### Browser
 There is a pre-built standalone version of this library in the 'dist' folder.  Of course, one may include the source in other JS projects and use those project's build tools to bundle with other software.
 ```
 <script src="/path/to/bvbrc_js_client/dist/bvbrc_client.js"></script>
@@ -34,16 +34,20 @@ There is a pre-built standalone version of this library in the 'dist' folder.  O
 </script>
 ```
 
-
 ## Base API
 
-The base API call methods are ```get```,```query```,and ```getSchema```.  Most other methods are built atop these.  They are all data type independent and take the data type as the first parameter.  The data type parameter is the SOLR collection name.  The code contains a white list of valid data types and will throw an ```InvalidDataType``` error if an invalid one is provided.
+The base API call methods are ```get```,```query```,and ```getSchema```.  Most other methods are built atop these.  They are all data type independent and take the data type as the first parameter.  The data type parameter is the SOLR collection name.  The code contains a white list of valid data types and will throw an ```InvalidDataType``` error if an invalid one is provided.  
+
+Most methods are asyncronous and will work using either ```await``` syntax or with  Promises (e.g., ```.then(callback)```). 
 
 ### getSchema()
 ```getSchema()``` returns the SOLR schema associated with the provided data type
+```
+var schema = await svc.getSchema('genome')
+```
 
 ### get()
-```get()``` uses the data type as its first parameter and its second parameter is the ID of the item to retrieve.  The specific ID property for a data type is its SOLR unique key.  It returns a single item.
+```get()``` retrieves a single item of the provided datatype.  It uses the data type as its first parameter and its second parameter is the ID of the item to retrieve.  The specific ID property for a data type is its SOLR unique key.  It returns a single item.
 
 ```
 # GET using async/await
@@ -57,7 +61,7 @@ svc.get("genome","227377.26").then((genome)=>{
 ```
 
 ### query()
-```query()``` takes the data_type, a query string, and an optional options object as parameters.  The query string defaults to expecting an RQL query, but may also accept a SOLR query if the ```"query_lang"``` option is set to ```"solr"```. 
+```query()``` takes the data_type, a query string, and an optional options object as parameters and returns a set of data. The query string defaults to expecting an RQL query, but may also accept a SOLR query if the ```"query_lang"``` option is set to ```"solr"```. The default return type is ```application/json``` and this is mapped to a ```QueryResult``` object. This object contains two properties: ```items``` and ```meta```.  The metadata contains data such as  ```start``` and ```total_items```.   ```items``` is the array of returned objects.
 
 #### Query Options
 - ```query_lang``` - ```solr``` or ```rql```
@@ -69,8 +73,6 @@ svc.get("genome","227377.26").then((genome)=>{
   - ```text/csv```
   - TODO: fill out the rest
 - select - Array of columns to include in the response. By default the whole object is returned, this will limit the properties returned.  
-
-The default ```application/json``` return type returns a ```QueryResult``` object. This object contains two properties: ```items``` and ```meta```.  The metadata contains data such as the start and total record count.  ```items``` is the array of returned objects.
 
 ```
 # QUERY with RQL using async/await
