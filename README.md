@@ -16,7 +16,6 @@ npm run build
 npm run test
 ```
 
-
 ## Instantiation
 
 ### NodeJS
@@ -24,6 +23,7 @@ npm run test
 const Service = require('bvbrc_js_client')
 const svc = new Service("https://patricbrc.org/api")
 ```
+
 ### Browser
 There is a pre-built standalone version of this library in the 'dist' folder.  Of course, one may include the source in other JS projects and use those project's build tools to bundle with other software.
 ```
@@ -34,11 +34,24 @@ There is a pre-built standalone version of this library in the 'dist' folder.  O
 </script>
 ```
 
-## Base API
+The BVBRCCLient class takes the user's token as a second optional parameters, which is of course required when trying to access and private data.
 
+Additionally the BVBRCClient class can be instantiated with no parameters and later initialized with an endpoint and token.  This allows lazy instantiation of the class so that it is easily integrated into the singleton pattern p3_web is currently using.
+
+```
+  const svc = new BVBRCClient();
+
+  /* later */
+
+  svc.init(endpoint, token)
+
+```
+If API calls are made while the class is not initialized, a ```ClientNotInitialized``` error will be thrown
+
+## Base API
 The base API call methods are ```get```,```query```,and ```getSchema```.  Most other methods are built atop these.  They are all data type independent and take the data type as the first parameter.  The data type parameter is the SOLR collection name.  The code contains a white list of valid data types and will throw an ```InvalidDataType``` error if an invalid one is provided.  
 
-Most methods are asyncronous and will work using either ```await``` syntax or with  Promises (e.g., ```.then(callback)```). 
+Most methods are asyncronous and will work using either ```await``` syntax or with  Promises (e.g., ```.then(callback)```). ```await``` syntax can only be used in ```async``` functions.
 
 ### getSchema()
 ```getSchema()``` returns the SOLR schema associated with the provided data type
@@ -107,15 +120,15 @@ const result = await svc.queryGenomes("coxiella",{limit: 10, start:5, query_lang
 ```
 
 ## Extended API
-
 In addition to the base method calls and the common method calls for each data type, some specialized methods also exist.  These may be simple shortcuts, specialized calls  specific to a data type or they may be made up of a complex set of queries.  If you add new methods, be sure to document them here and in the All Methods section below. 
 
 - ```getGenomeFeatures(<array of genome IDs>,<query opts>)``` - Get the ```genome_features``` for a give set of genome IDs.  Standard query options apply to the results.
 - ```getGenomeFeaturesByQuery(<genome query>,<feature filter>,<query opts>)``` - Query for a set of genomes and then with that set of genomes find all of the ```genome_features``` filtered by the feature filter (if present).  Standard query options apply to the final query. 
 - ```getGenomeSequences(<array of genome IDS>,<query opts>)``` - Get the ```genome_sequences``` for a give set of genome IDs.  Standard query options apply to the results.
+- ```setGenomePermissions(<ids>, <perms>)``` - Sets the provided permissions on the genomes identified by ```<ids>```
+- ```solrPermsToObjs(<array of genome objects>)``` - Maps the permissions on provided genome objects to objects for processing.  This is a synchronous method and does not communicate with the server.
 
 ## All Methods
-
 - Base Methods
   - ```get(<data type>,<id>)```
   - ```query(<data type>, <query>, <query opts>)```
@@ -144,6 +157,8 @@ In addition to the base method calls and the common method calls for each data t
 - Genome
   - ```getGenome(<id>)```
   - ```queryGenomes(<query>, <query opts>)```
+  - ```setGenomePermissions(<ids>, <perms>)```
+  - ```solrPermsToObjs(<array of genome objects>)```
 - IDRef
   - ```getIDRef(<id>)```
   - ```queryIDRefs(<query>, <query opts>)```
