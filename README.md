@@ -63,6 +63,8 @@ svc.get("genome","227377.26").then((genome)=>{
 ### query()
 ```query()``` takes the data_type, a query string, and an optional options object as parameters and returns a set of data. The query string defaults to expecting an RQL query, but may also accept a SOLR query if the ```"query_lang"``` option is set to ```"solr"```. The default return type is ```application/json``` and this is mapped to a ```QueryResult``` object. This object contains two properties: ```items``` and ```meta```.  The metadata contains data such as  ```start``` and ```total_items```.   ```items``` is the array of returned objects.
 
+The query method will automatically switch between ```GET``` requests and ```POST``` requests based on the size of the query.  If the provided query is greater than 2000 characters, the ```POST``` will be used.  Otherwise, ```GET``` will be used.  This is transparent to the caller.
+
 #### Query Options
 - ```query_lang``` - ```solr``` or ```rql```
 - ```limit``` - Maximum number of records to return
