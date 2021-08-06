@@ -2,7 +2,9 @@
 bvbrc_js_client is a javascript client library for accessing the BV-BRC Data API
 
 ## Installation
-```npm install bvbrc_js_client```
+```
+npm install bvbrc_js_client
+```
 
 ## Build
 Running a build will create a dist/bvbrc_client.js file that can be loaded independantly in the browser. This creates a 'BVBRCClient' class on the global (window) object when included in browser.
