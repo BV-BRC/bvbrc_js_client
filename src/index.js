@@ -434,16 +434,15 @@ class BVBRCAPIService {
 		}, this);
 
 		var ids = Array.isArray(ids) ? ids : [ids];
-		const params = { data: JSON.stringify(data) }
 
-		const req_opts = {
+		const req_options = {
 			method: "POST",
 			headers: {
 				'content-type': 'application/json',
 				"accept": "application/json",
 				'Authorization': this.token
 			},
-			body: data
+			body: JSON.stringify(data)
 		}
 
 		var response = await fetch(`${this.endpoint}/permissions/genome/${ids.join(',')}`, req_options)
